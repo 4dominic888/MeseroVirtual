@@ -45,6 +45,8 @@ namespace MeseroVirtual
         }
         private void btnAlimentoAgregar_Click(object sender, EventArgs e)
         {
+            //esta es una actualización
+            int update = 888;
             Alimento alimento = new Alimento();
 
             #region Nombre
