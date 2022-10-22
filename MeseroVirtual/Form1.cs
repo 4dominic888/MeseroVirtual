@@ -45,7 +45,7 @@ namespace MeseroVirtual
         }
         private void btnAlimentoAgregar_Click(object sender, EventArgs e)
         {
-            //esta es una actualización
+            //esta es una actualización nueva
             int update = 888;
             Alimento alimento = new Alimento();
 
