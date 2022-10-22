@@ -20,9 +20,12 @@ namespace Clases
             Tipo = tipo;
             Precio = precio;
         }
-
         public Alimento(){}
 
-
+        public override string ToString()
+        {
+            //{Nombre}♦{Imagen}♦{Tipo}♦{Precio}
+            return $"{this.Nombre}♦{this.Imagen}♦{this.Tipo}♦{this.Precio}";
+        }
     }
 }

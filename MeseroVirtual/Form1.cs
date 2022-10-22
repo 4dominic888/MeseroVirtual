@@ -1,6 +1,7 @@
 using Clases;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.VisualBasic.Devices;
 
 namespace MeseroVirtual
 {
@@ -48,9 +49,9 @@ namespace MeseroVirtual
             Alimento alimento = new Alimento();
 
             #region Nombre
-            if (txtAlimentoNombre.Text != "") alimento.Nombre = txtAlimentoNombre.Text;
-            else if (AlimentosAlmacenados.ElementoExistenteNombre(txtAlimentoNombre.Text)){ MessageBox.Show("El alimento ya ha sido ingresado previamente", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
-            else { MessageBox.Show("El nombre ingresado está vacío", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
+            if (AlimentosAlmacenados.ElementoExistenteNombre(txtAlimentoNombre.Text)) { MessageBox.Show("El alimento ya ha sido ingresado previamente", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
+            else if (txtAlimentoNombre.Text == "") { MessageBox.Show("El nombre ingresado está vacío", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
+            else alimento.Nombre = txtAlimentoNombre.Text;
             #endregion
 
             #region Categoria
@@ -74,7 +75,7 @@ namespace MeseroVirtual
             if (txtAlimentoImagenPath.Text == "") { MessageBox.Show("No ha elegido una imagen", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
             else
             {
-                listaImagenesID.InsertToEnd("Img" + txtAlimentoNombre.Text + ".png");
+                listaImagenesID.InsertToEnd("img_" + txtAlimentoNombre.Text + ".png");
 
                 string path = Path.Combine(@".\temp\", Path.GetFileName("Img" + txtAlimentoNombre.Text + ".png"));
                 alimento.Imagen = path;
@@ -91,6 +92,10 @@ namespace MeseroVirtual
             cbAlimentoCategoria.SelectedIndex = 0;
             txtAlimentoPrecio.Clear();
             #endregion
+
+            AlimentosAlmacenados.Apilar(alimento);
+            //CambiosRealizados = true;
+            
         }
 
         //Categoria CRUD
@@ -124,20 +129,40 @@ namespace MeseroVirtual
             foreach (ListViewGroup item in LVComidas.Groups) if (name.Equals(item.Header)) return item;
             return null;
         }
-
-        private void GuardarDatos(string path)
+        private ListViewItem EncontrarItem(string name)
         {
+            foreach (ListViewItem item in LVComidas.Items) if (name.Equals(item.Text)) return item;
+            return null;
+        }
 
+        private void GuardarDatos(string path, object type)
+        {
+            switch (type)
+            {
+                case PilaAlimento:
+                    {
+                        AlimentosAlmacenados.For_Each((item) =>
+                        {
+                            string imagen = item.Imagen;
+
+                        });
+                        
+                        StreamWriter guardar = File.CreateText(path);
+                        AlimentosAlmacenados.For_Each(item => guardar.WriteLine(item));
+                        guardar.Close();
+                        break;
+                    }
+                default: break;
+            }
         }
 
         private void FMenu_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (CambiosRealizados)
             {
-                DialogResult dialog = MessageBox.Show("¿Desea cerrar el programa y guardar los cambios hechos?", "Mesero Virtual", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dialog = MessageBox.Show("¿Desea guardar los cambios hechos?", "Mesero Virtual", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if(dialog is DialogResult.Yes)
                 {
-                    GuardarDatos("");
                     //más
                 }
                 else
@@ -146,6 +171,11 @@ namespace MeseroVirtual
                 }
             }
 
+        }
+        //temporal
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            GuardarDatos(@".\datos\BDAlimentos.txt", AlimentosAlmacenados);
         }
     }
 }

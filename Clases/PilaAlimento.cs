@@ -8,6 +8,7 @@ namespace Clases
 {
     public class PilaAlimento
     {
+        public delegate void AccionRecorrer(Alimento x);
         public NodoAlimento cima = null;
         public bool PilaVacia => cima == null;
 
@@ -58,21 +59,33 @@ namespace Clases
                 ApilarPila(pilaTemporal);
             }
         }
-        public void Mostrar()
+        public string Mostrar()
+        {
+            string retorno = "";
+            NodoAlimento actual = cima;
+            while (actual != null)
+            {
+                retorno += actual.data;
+                actual = actual.puntero;
+            }
+            return retorno;
+        }
+
+        public void For_Each(AccionRecorrer funcion)
         {
             NodoAlimento actual = cima;
             while (actual != null)
             {
-                Console.WriteLine(actual.data);
+                funcion(actual.data);
                 actual = actual.puntero;
             }
-            Console.WriteLine();
         }
-        public void MostrarRevez()
+
+        public string MostrarRevez()
         {
             PilaAlimento pila = new PilaAlimento();
             pila.ApilarPila(this);
-            pila.Mostrar();
+            return pila.Mostrar();
         }
         public void ApilarPila(PilaAlimento pila)
         {
@@ -136,6 +149,7 @@ namespace Clases
 
         public bool ElementoExistenteNombre(string nombre)
         {
+            if (PilaVacia) return false;
             NodoAlimento actual = cima;
             while (actual != null)
             {

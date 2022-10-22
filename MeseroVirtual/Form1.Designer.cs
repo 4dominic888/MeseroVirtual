@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Desayunos", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Desayunos", System.Windows.Forms.HorizontalAlignment.Center);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Almuerzos", System.Windows.Forms.HorizontalAlignment.Center);
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Arroz con pollo");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FMenu));
@@ -42,7 +42,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnComprar = new System.Windows.Forms.Button();
-            this.PtureImagenAlimento = new System.Windows.Forms.PictureBox();
+            this.PictureImagenAlimento = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txt_priceAlimento = new System.Windows.Forms.TextBox();
@@ -65,10 +65,11 @@
             this.cbAlimentoCategoria = new System.Windows.Forms.ComboBox();
             this.btnAlimentoImagen = new System.Windows.Forms.Button();
             this.txtAlimentoNombre = new System.Windows.Forms.TextBox();
+            this.btnGuardar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.TabPageRestaurante.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PtureImagenAlimento)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).BeginInit();
             this.TBAdmindComidas.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -97,6 +98,7 @@
             this.LVComidas.ForeColor = System.Drawing.Color.Black;
             this.LVComidas.GridLines = true;
             listViewGroup1.Header = "Desayunos";
+            listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             listViewGroup1.Name = "Desayunos";
             listViewGroup2.Header = "Almuerzos";
             listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
@@ -180,7 +182,7 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.btnComprar);
-            this.groupBox1.Controls.Add(this.PtureImagenAlimento);
+            this.groupBox1.Controls.Add(this.PictureImagenAlimento);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txt_priceAlimento);
@@ -203,14 +205,14 @@
             this.btnComprar.Text = "Agregar Pedido";
             this.btnComprar.UseVisualStyleBackColor = false;
             // 
-            // PtureImagenAlimento
+            // PictureImagenAlimento
             // 
-            this.PtureImagenAlimento.BackColor = System.Drawing.Color.LightGray;
-            this.PtureImagenAlimento.Location = new System.Drawing.Point(23, 95);
-            this.PtureImagenAlimento.Name = "PtureImagenAlimento";
-            this.PtureImagenAlimento.Size = new System.Drawing.Size(182, 118);
-            this.PtureImagenAlimento.TabIndex = 10;
-            this.PtureImagenAlimento.TabStop = false;
+            this.PictureImagenAlimento.BackColor = System.Drawing.Color.LightGray;
+            this.PictureImagenAlimento.Location = new System.Drawing.Point(23, 95);
+            this.PictureImagenAlimento.Name = "PictureImagenAlimento";
+            this.PictureImagenAlimento.Size = new System.Drawing.Size(182, 118);
+            this.PictureImagenAlimento.TabIndex = 10;
+            this.PictureImagenAlimento.TabStop = false;
             // 
             // label3
             // 
@@ -248,6 +250,7 @@
             // 
             // TBAdmindComidas
             // 
+            this.TBAdmindComidas.Controls.Add(this.btnGuardar);
             this.TBAdmindComidas.Controls.Add(this.groupBox5);
             this.TBAdmindComidas.Controls.Add(this.groupBox4);
             this.TBAdmindComidas.Controls.Add(this.groupBox3);
@@ -432,6 +435,16 @@
             this.txtAlimentoNombre.Size = new System.Drawing.Size(236, 23);
             this.txtAlimentoNombre.TabIndex = 0;
             // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Location = new System.Drawing.Point(331, 221);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.TabIndex = 3;
+            this.btnGuardar.Text = "save";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
             // FMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -452,7 +465,7 @@
             this.TabPageRestaurante.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PtureImagenAlimento)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).EndInit();
             this.TBAdmindComidas.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -469,7 +482,7 @@
         private TabControl tabControl1;
         private TabPage TabPageRestaurante;
         private ColumnHeader CNombre;
-        private PictureBox PtureImagenAlimento;
+        private PictureBox PictureImagenAlimento;
         private Button btnComprar;
         private TextBox txt_priceAlimento;
         private TextBox txt_typeAlimento;
@@ -497,5 +510,6 @@
         private Button btnCategoriaAgregar;
         private Label nombreRestaurante;
         private Label label2;
+        private Button btnGuardar;
     }
 }
