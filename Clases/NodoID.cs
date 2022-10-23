@@ -6,32 +6,32 @@ using System.Threading.Tasks;
 
 namespace Clases
 {
-    public class NodoID
+    public class NodoCategoria
     {
-        public NodoID puntero { get; set; }
+        public NodoCategoria puntero { get; set; }
         public string data { get; set; }
         public int index { get; set; }
-        public NodoID() => puntero = null;
+        public NodoCategoria() => puntero = null;
 
-        public NodoID(string data, NodoID puntero = null)
+        public NodoCategoria(string data, NodoCategoria puntero = null)
         {
             this.data = data;
             this.puntero = puntero;
         }
     }
-    public class ListaEnlazada
+    public class ListaEnlazadaCategorias : IBucles<string>
     {
-        private NodoID inicio; //nodo creado con el propósito de identificar cualquier nodo como el principal
+        private NodoCategoria inicio; //nodo creado con el propósito de identificar cualquier nodo como el principal
         public bool Empty => inicio == null;
         public void InsertToEnd(string data)
         {
-            NodoID nodo = new NodoID(); //creación del nodo
+            NodoCategoria nodo = new NodoCategoria(); //creación del nodo
             nodo.data = data; //asignación del dato
 
             if (inicio is null) inicio = nodo; //se asigna el nodo como inicial si no tiene datos la lista
             else
             {
-                NodoID nodoTemporal = inicio; //creación del nodo temporal
+                NodoCategoria nodoTemporal = inicio; //creación del nodo temporal
                 while (nodoTemporal.puntero != null) //while que recorre todos los elementos hasta el último
                 {
                     nodoTemporal = nodoTemporal.puntero; //se asigna el nodo temporal a su puntero para seguir recorriendo
@@ -43,7 +43,7 @@ namespace Clases
         }
         public void InsertToFirst(string data)
         {
-            NodoID nodo = new NodoID();
+            NodoCategoria nodo = new NodoCategoria();
             nodo.data = data;
 
             if (inicio is null) inicio = nodo;
@@ -56,7 +56,7 @@ namespace Clases
         }
         public void InsertTo(string data, int index)
         {
-            NodoID nodo = new NodoID();
+            NodoCategoria nodo = new NodoCategoria();
             nodo.data = data;
             if (inicio is null) nodo = inicio;
             else if (index == 0) InsertToFirst(data);
@@ -70,7 +70,7 @@ namespace Clases
         }
         public string ShowAllList()
         {
-            NodoID nodoTemporal = new NodoID();
+            NodoCategoria nodoTemporal = new NodoCategoria();
             nodoTemporal = inicio;
             string cadena = "";
 
@@ -83,10 +83,23 @@ namespace Clases
             }
             return cadena;
         }
+        public void For_Each(Action<string> funcion)
+        {
+            NodoCategoria nodoTemporal = new NodoCategoria();
+            nodoTemporal = inicio;
+
+            if (inicio is null) return;
+
+            while (nodoTemporal != null)
+            {
+                funcion(nodoTemporal.data);
+                nodoTemporal = nodoTemporal.puntero;
+            }
+        }
         public int Quantity()
         {
             int count = 0;
-            NodoID nodoTemporal = inicio;
+            NodoCategoria nodoTemporal = inicio;
 
             while (nodoTemporal != null)
             {
@@ -99,7 +112,7 @@ namespace Clases
         private void IndexAssignation()
         {
             int count = -1;
-            NodoID nodoTemporal = inicio;
+            NodoCategoria nodoTemporal = inicio;
 
             while (nodoTemporal != null)
             {
@@ -110,7 +123,7 @@ namespace Clases
         }
         public object SearchDataOfIndex(int index)
         {
-            NodoID nodoTemporal = inicio;
+            NodoCategoria nodoTemporal = inicio;
             while (nodoTemporal != null)
             {
                 if (nodoTemporal.index == index) return nodoTemporal.data;
@@ -118,9 +131,9 @@ namespace Clases
             }
             return null;
         }
-        private NodoID SearchNodeOfIndex(int index)
+        private NodoCategoria SearchNodeOfIndex(int index)
         {
-            NodoID nodoTemporal = inicio;
+            NodoCategoria nodoTemporal = inicio;
             while (nodoTemporal != null)
             {
                 if (nodoTemporal.index == index) return nodoTemporal;
@@ -130,7 +143,7 @@ namespace Clases
         }
         public bool ExistData(string data)
         {
-            NodoID nodoTemporal = inicio;
+            NodoCategoria nodoTemporal = inicio;
             while (nodoTemporal != null)
             {
                 if (nodoTemporal.data.Equals(data)) return true;
@@ -165,8 +178,8 @@ namespace Clases
 
         public void DeleteOfData(string data)
         {
-            NodoID temporal = inicio;
-            NodoID anterior = null;
+            NodoCategoria temporal = inicio;
+            NodoCategoria anterior = null;
 
             while (temporal != null)
             {

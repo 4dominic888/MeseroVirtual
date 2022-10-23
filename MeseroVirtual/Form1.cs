@@ -1,23 +1,23 @@
 using Clases;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.VisualBasic.Devices;
 
 namespace MeseroVirtual
 {
     public partial class FMenu : Form
     {
-        public ListaEnlazada listaImagenesID = new ListaEnlazada();
+        public ListaEnlazadaCategorias ListaCategorias = new ListaEnlazadaCategorias();
         public PilaAlimento AlimentosAlmacenados = new PilaAlimento();
         public bool CambiosRealizados = false;
         public FMenu() => InitializeComponent();
 
         private void FMenu_Load(object sender, EventArgs e)
         {
-            ActualizarDatos();
             LVComidas.Items.Clear();
+            LVComidas.Groups.Clear();
             txtAlimentoImagenPath.Clear();
             DatosAlmacenados();
+            ActualizarDatos();
         }
 
         private void DatosAlmacenados()
@@ -50,12 +50,12 @@ namespace MeseroVirtual
 
             #region Nombre
             if (AlimentosAlmacenados.ElementoExistenteNombre(txtAlimentoNombre.Text)) { MessageBox.Show("El alimento ya ha sido ingresado previamente", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
-            else if (txtAlimentoNombre.Text == "") { MessageBox.Show("El nombre ingresado está vacío", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
+            else if (txtAlimentoNombre.Text == "") { MessageBox.Show("El nombre ingresado está vacío", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             else alimento.Nombre = txtAlimentoNombre.Text;
             #endregion
 
             #region Categoria
-            if (cbAlimentoCategoria.SelectedIndex <= 0) { MessageBox.Show("No ha elegido una categoría", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
+            if (cbAlimentoCategoria.SelectedIndex <= 0) { MessageBox.Show("No ha elegido una categoría", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             else alimento.Tipo = cbAlimentoCategoria.SelectedItem.ToString();
             #endregion
 
@@ -66,24 +66,22 @@ namespace MeseroVirtual
             }
             catch (FormatException)
             {
-                MessageBox.Show("El precio establecido está vacio o no ha sido colocado correctamente", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+                MessageBox.Show("El precio establecido está vacio o no ha sido colocado correctamente", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             #endregion
 
             #region Imagen
-            if (txtAlimentoImagenPath.Text == "") { MessageBox.Show("No ha elegido una imagen", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
+            if (txtAlimentoImagenPath.Text == "") { MessageBox.Show("No ha elegido una imagen", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             else
             {
-                listaImagenesID.InsertToEnd("img_" + txtAlimentoNombre.Text + ".png");
-
                 string path = Path.Combine(@".\temp\", Path.GetFileName("Img" + txtAlimentoNombre.Text + ".png"));
                 alimento.Imagen = path;
                 File.Copy(txtAlimentoImagenPath.Text, path, true);
             }
             #endregion
 
-            if (EncontrarGrupo(alimento.Tipo) is null) { MessageBox.Show($"Ha ocurrido un error", nombreRestaurante.Text, MessageBoxButtons.OKCancel, MessageBoxIcon.Warning); return; }
+            if (EncontrarGrupo(alimento.Tipo) is null) { MessageBox.Show($"Ha ocurrido un error", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             else LVComidas.Items.Add(new ListViewItem(alimento.Nombre, EncontrarGrupo(alimento.Tipo)));
 
             #region Limpiar Casillas
@@ -101,9 +99,15 @@ namespace MeseroVirtual
         //Categoria CRUD
         private void btnCategoriaAgregar_Click(object sender, EventArgs e)
         {
-            LVComidas.Groups.Add(new ListViewGroup(txtCategoriaNombre.Text, HorizontalAlignment.Center));
+            if (EncontrarGrupo(txtCategoriaNombre.Text) is null)
+            { 
+                LVComidas.Groups.Add(new ListViewGroup(txtCategoriaNombre.Text, HorizontalAlignment.Center));
+                ListaCategorias.InsertToEnd(txtCategoriaNombre.Text);
+            }
+            else { MessageBox.Show("La categoría ya existe", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
             ActualizarDatos();
             txtCategoriaNombre.Clear();
+
         }
 
         #endregion
@@ -141,14 +145,26 @@ namespace MeseroVirtual
             {
                 case PilaAlimento:
                     {
-                        AlimentosAlmacenados.For_Each((item) =>
+                        AlimentosAlmacenados.For_Each(item =>
                         {
-                            string imagen = item.Imagen;
-
+                            if (item.Imagen.ToLower()[2] == 't') //si sus imágenes están en el temp
+                            {
+                                File.Move(item.Imagen, Path.Combine(@".\AlimentosImagenes\", Path.GetFileName("Img" + item.Nombre + ".png")));
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                                item.Imagen = Path.Combine(@".\AlimentosImagenes\", Path.GetFileName("Img" + item.Nombre + ".png"));
+                            }
                         });
                         
                         StreamWriter guardar = File.CreateText(path);
                         AlimentosAlmacenados.For_Each(item => guardar.WriteLine(item));
+                        guardar.Close();
+                        break;
+                    }
+                case ListaEnlazadaCategorias:
+                    {
+                        StreamWriter guardar = File.CreateText(path);
+                        ListaCategorias.For_Each(item => guardar.WriteLine(item));
                         guardar.Close();
                         break;
                     }
@@ -167,7 +183,7 @@ namespace MeseroVirtual
                 }
                 else
                 {
-                    //Borrar imagenes guardadas localmente
+
                 }
             }
 
@@ -176,6 +192,7 @@ namespace MeseroVirtual
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             GuardarDatos(@".\datos\BDAlimentos.txt", AlimentosAlmacenados);
+            GuardarDatos(@".\datos\BDCategorias.txt", ListaCategorias);
         }
     }
 }

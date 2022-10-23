@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Desayunos", System.Windows.Forms.HorizontalAlignment.Center);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Almuerzos", System.Windows.Forms.HorizontalAlignment.Center);
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Arroz con pollo");
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Almuerzos", System.Windows.Forms.HorizontalAlignment.Center);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FMenu));
             this.label1 = new System.Windows.Forms.Label();
             this.LVComidas = new System.Windows.Forms.ListView();
@@ -48,6 +48,7 @@
             this.txt_priceAlimento = new System.Windows.Forms.TextBox();
             this.txt_typeAlimento = new System.Windows.Forms.TextBox();
             this.TBAdmindComidas = new System.Windows.Forms.TabPage();
+            this.btnGuardar = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnCategoriaEditar = new System.Windows.Forms.Button();
@@ -65,7 +66,6 @@
             this.cbAlimentoCategoria = new System.Windows.Forms.ComboBox();
             this.btnAlimentoImagen = new System.Windows.Forms.Button();
             this.txtAlimentoNombre = new System.Windows.Forms.TextBox();
-            this.btnGuardar = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.TabPageRestaurante.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -100,12 +100,11 @@
             listViewGroup1.Header = "Desayunos";
             listViewGroup1.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             listViewGroup1.Name = "Desayunos";
+            this.LVComidas.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1});
             listViewGroup2.Header = "Almuerzos";
             listViewGroup2.HeaderAlignment = System.Windows.Forms.HorizontalAlignment.Center;
             listViewGroup2.Name = "Almuerzos";
-            this.LVComidas.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1,
-            listViewGroup2});
             listViewItem1.Group = listViewGroup2;
             this.LVComidas.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
@@ -261,6 +260,16 @@
             this.TBAdmindComidas.TabIndex = 1;
             this.TBAdmindComidas.Text = "Administrador de comidas";
             this.TBAdmindComidas.UseVisualStyleBackColor = true;
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.Location = new System.Drawing.Point(305, 224);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.TabIndex = 3;
+            this.btnGuardar.Text = "save";
+            this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // groupBox5
             // 
@@ -434,16 +443,6 @@
             this.txtAlimentoNombre.PlaceholderText = "Ingrese el nombre de la comida...";
             this.txtAlimentoNombre.Size = new System.Drawing.Size(236, 23);
             this.txtAlimentoNombre.TabIndex = 0;
-            // 
-            // btnGuardar
-            // 
-            this.btnGuardar.Location = new System.Drawing.Point(331, 221);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardar.TabIndex = 3;
-            this.btnGuardar.Text = "save";
-            this.btnGuardar.UseVisualStyleBackColor = true;
-            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // FMenu
             // 

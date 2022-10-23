@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Clases
 {
-    public class PilaAlimento
+    public class PilaAlimento : IBucles<Alimento>
     {
-        public delegate void AccionRecorrer(Alimento x);
+        //public delegate void AccionRecorrer(Alimento x);
+
         public NodoAlimento cima = null;
         public bool PilaVacia => cima == null;
 
@@ -71,7 +72,7 @@ namespace Clases
             return retorno;
         }
 
-        public void For_Each(AccionRecorrer funcion)
+        public void For_Each(Action<Alimento> funcion)
         {
             NodoAlimento actual = cima;
             while (actual != null)
