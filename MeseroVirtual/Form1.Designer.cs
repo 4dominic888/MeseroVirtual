@@ -66,6 +66,7 @@
             this.cbAlimentoCategoria = new System.Windows.Forms.ComboBox();
             this.btnAlimentoImagen = new System.Windows.Forms.Button();
             this.txtAlimentoNombre = new System.Windows.Forms.TextBox();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.TabPageRestaurante.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -73,6 +74,7 @@
             this.TBAdmindComidas.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -249,7 +251,7 @@
             // 
             // TBAdmindComidas
             // 
-            this.TBAdmindComidas.Controls.Add(this.btnGuardar);
+            this.TBAdmindComidas.Controls.Add(this.groupBox6);
             this.TBAdmindComidas.Controls.Add(this.groupBox5);
             this.TBAdmindComidas.Controls.Add(this.groupBox4);
             this.TBAdmindComidas.Controls.Add(this.groupBox3);
@@ -263,11 +265,11 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(305, 224);
+            this.btnGuardar.Location = new System.Drawing.Point(13, 22);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 23);
+            this.btnGuardar.Size = new System.Drawing.Size(81, 49);
             this.btnGuardar.TabIndex = 3;
-            this.btnGuardar.Text = "save";
+            this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
@@ -444,6 +446,16 @@
             this.txtAlimentoNombre.Size = new System.Drawing.Size(236, 23);
             this.txtAlimentoNombre.TabIndex = 0;
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnGuardar);
+            this.groupBox6.Location = new System.Drawing.Point(272, 206);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(200, 142);
+            this.groupBox6.TabIndex = 4;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Configuración general";
+            // 
             // FMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -470,6 +482,7 @@
             this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -510,5 +523,6 @@
         private Label nombreRestaurante;
         private Label label2;
         private Button btnGuardar;
+        private GroupBox groupBox6;
     }
 }
