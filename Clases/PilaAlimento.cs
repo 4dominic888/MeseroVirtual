@@ -159,5 +159,17 @@ namespace Clases
             }
             return false;
         }
+
+        public Alimento BuscarElementoExistenteNombre(string nombre)
+        {
+            if (PilaVacia) return null;
+            NodoAlimento actual = cima;
+            while (actual != null)
+            {
+                if (nombre.Equals(actual.data.Nombre)) return actual.data;
+                actual = actual.puntero;
+            }
+            return null;
+        }
     }
 }

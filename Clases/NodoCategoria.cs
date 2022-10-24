@@ -19,6 +19,7 @@ namespace Clases
             this.puntero = puntero;
         }
     }
+
     public class ListaEnlazadaCategorias : IBucles<string>
     {
         private NodoCategoria inicio; //nodo creado con el propósito de identificar cualquier nodo como el principal
@@ -150,30 +151,6 @@ namespace Clases
                 nodoTemporal = nodoTemporal.puntero;
             }
             return false;
-        }
-
-        public void ShellSort()
-        {
-            int lenght = Quantity();
-            int brecha = lenght / 2;
-
-            while (brecha > 0)
-            {
-                for (int i = brecha; i < lenght; i++)
-                {
-                    string bufer = SearchNodeOfIndex(i).data;
-                    int saveIndex = i;
-
-                    while (saveIndex >= brecha && SearchNodeOfIndex(saveIndex - brecha).data.CompareTo(bufer) == 1)
-                    {
-                        SearchNodeOfIndex(saveIndex).data = SearchNodeOfIndex(saveIndex - brecha).data;
-                        saveIndex -= brecha;
-                    }
-
-                    SearchNodeOfIndex(saveIndex).data = bufer;
-                }
-                brecha /= 2;
-            }
         }
 
         public void DeleteOfData(string data)

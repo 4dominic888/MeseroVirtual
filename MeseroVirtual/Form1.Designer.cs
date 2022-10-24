@@ -48,13 +48,11 @@
             this.txt_priceAlimento = new System.Windows.Forms.TextBox();
             this.txt_typeAlimento = new System.Windows.Forms.TextBox();
             this.TBAdmindComidas = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.btnCategoriaEditar = new System.Windows.Forms.Button();
-            this.btnCategoriaEliminar = new System.Windows.Forms.Button();
-            this.btnCategoriaAgregar = new System.Windows.Forms.Button();
-            this.txtCategoriaNombre = new System.Windows.Forms.TextBox();
+            this.btnAdministrarCategorias = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnAlimentoBuscar = new System.Windows.Forms.Button();
             this.txtAlimentoImagenPath = new System.Windows.Forms.TextBox();
@@ -66,15 +64,14 @@
             this.cbAlimentoCategoria = new System.Windows.Forms.ComboBox();
             this.btnAlimentoImagen = new System.Windows.Forms.Button();
             this.txtAlimentoNombre = new System.Windows.Forms.TextBox();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.TabPageRestaurante.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).BeginInit();
             this.TBAdmindComidas.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -118,6 +115,7 @@
             this.LVComidas.TabIndex = 1;
             this.LVComidas.UseCompatibleStateImageBehavior = false;
             this.LVComidas.View = System.Windows.Forms.View.Tile;
+            this.LVComidas.MouseClick += new System.Windows.Forms.MouseEventHandler(this.VerInformacion);
             // 
             // CNombre
             // 
@@ -212,6 +210,7 @@
             this.PictureImagenAlimento.Location = new System.Drawing.Point(23, 95);
             this.PictureImagenAlimento.Name = "PictureImagenAlimento";
             this.PictureImagenAlimento.Size = new System.Drawing.Size(182, 118);
+            this.PictureImagenAlimento.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureImagenAlimento.TabIndex = 10;
             this.PictureImagenAlimento.TabStop = false;
             // 
@@ -263,6 +262,16 @@
             this.TBAdmindComidas.Text = "Administrador de comidas";
             this.TBAdmindComidas.UseVisualStyleBackColor = true;
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnGuardar);
+            this.groupBox6.Location = new System.Drawing.Point(272, 206);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(200, 142);
+            this.groupBox6.TabIndex = 4;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Configuración general";
+            // 
             // btnGuardar
             // 
             this.btnGuardar.Location = new System.Drawing.Point(13, 22);
@@ -284,53 +293,24 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.btnCategoriaEditar);
-            this.groupBox4.Controls.Add(this.btnCategoriaEliminar);
-            this.groupBox4.Controls.Add(this.btnCategoriaAgregar);
-            this.groupBox4.Controls.Add(this.txtCategoriaNombre);
+            this.groupBox4.Controls.Add(this.btnAdministrarCategorias);
             this.groupBox4.Location = new System.Drawing.Point(8, 203);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(258, 145);
+            this.groupBox4.Size = new System.Drawing.Size(258, 60);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Agregar Categoria";
+            this.groupBox4.Text = "Categorias";
             // 
-            // btnCategoriaEditar
+            // btnAdministrarCategorias
             // 
-            this.btnCategoriaEditar.Location = new System.Drawing.Point(6, 109);
-            this.btnCategoriaEditar.Name = "btnCategoriaEditar";
-            this.btnCategoriaEditar.Size = new System.Drawing.Size(236, 23);
-            this.btnCategoriaEditar.TabIndex = 4;
-            this.btnCategoriaEditar.Text = "Editar";
-            this.btnCategoriaEditar.UseVisualStyleBackColor = true;
-            // 
-            // btnCategoriaEliminar
-            // 
-            this.btnCategoriaEliminar.Location = new System.Drawing.Point(6, 80);
-            this.btnCategoriaEliminar.Name = "btnCategoriaEliminar";
-            this.btnCategoriaEliminar.Size = new System.Drawing.Size(236, 23);
-            this.btnCategoriaEliminar.TabIndex = 3;
-            this.btnCategoriaEliminar.Text = "Eliminar";
-            this.btnCategoriaEliminar.UseVisualStyleBackColor = true;
-            // 
-            // btnCategoriaAgregar
-            // 
-            this.btnCategoriaAgregar.Location = new System.Drawing.Point(6, 51);
-            this.btnCategoriaAgregar.Name = "btnCategoriaAgregar";
-            this.btnCategoriaAgregar.Size = new System.Drawing.Size(236, 23);
-            this.btnCategoriaAgregar.TabIndex = 2;
-            this.btnCategoriaAgregar.Text = "Agregar";
-            this.btnCategoriaAgregar.UseVisualStyleBackColor = true;
-            this.btnCategoriaAgregar.Click += new System.EventHandler(this.btnCategoriaAgregar_Click);
-            // 
-            // txtCategoriaNombre
-            // 
-            this.txtCategoriaNombre.Location = new System.Drawing.Point(6, 22);
-            this.txtCategoriaNombre.Name = "txtCategoriaNombre";
-            this.txtCategoriaNombre.PlaceholderText = "Ingrese el nombre de la categoria...";
-            this.txtCategoriaNombre.Size = new System.Drawing.Size(236, 23);
-            this.txtCategoriaNombre.TabIndex = 1;
-            this.txtCategoriaNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SoloLetras);
+            this.btnAdministrarCategorias.Location = new System.Drawing.Point(6, 22);
+            this.btnAdministrarCategorias.Name = "btnAdministrarCategorias";
+            this.btnAdministrarCategorias.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnAdministrarCategorias.Size = new System.Drawing.Size(236, 23);
+            this.btnAdministrarCategorias.TabIndex = 5;
+            this.btnAdministrarCategorias.Text = "Administrar Categorias";
+            this.btnAdministrarCategorias.UseVisualStyleBackColor = true;
+            this.btnAdministrarCategorias.Click += new System.EventHandler(this.btnAdministrarCategorias_Click);
             // 
             // groupBox3
             // 
@@ -360,6 +340,7 @@
             this.btnAlimentoBuscar.Size = new System.Drawing.Size(25, 23);
             this.btnAlimentoBuscar.TabIndex = 7;
             this.btnAlimentoBuscar.UseVisualStyleBackColor = true;
+            this.btnAlimentoBuscar.Click += new System.EventHandler(this.btnAlimentoBuscar_Click);
             // 
             // txtAlimentoImagenPath
             // 
@@ -375,12 +356,14 @@
             // 
             // btnAlimentoEditar
             // 
+            this.btnAlimentoEditar.Enabled = false;
             this.btnAlimentoEditar.Location = new System.Drawing.Point(260, 103);
             this.btnAlimentoEditar.Name = "btnAlimentoEditar";
             this.btnAlimentoEditar.Size = new System.Drawing.Size(156, 30);
             this.btnAlimentoEditar.TabIndex = 6;
             this.btnAlimentoEditar.Text = "Editar";
             this.btnAlimentoEditar.UseVisualStyleBackColor = true;
+            this.btnAlimentoEditar.Click += new System.EventHandler(this.btnAlimentoEditar_Click);
             // 
             // txtAlimentoBuscarNombre
             // 
@@ -392,6 +375,7 @@
             // 
             // btnAlimentoEliminar
             // 
+            this.btnAlimentoEliminar.Enabled = false;
             this.btnAlimentoEliminar.Location = new System.Drawing.Point(341, 22);
             this.btnAlimentoEliminar.Name = "btnAlimentoEliminar";
             this.btnAlimentoEliminar.Size = new System.Drawing.Size(75, 77);
@@ -446,16 +430,6 @@
             this.txtAlimentoNombre.Size = new System.Drawing.Size(236, 23);
             this.txtAlimentoNombre.TabIndex = 0;
             // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.btnGuardar);
-            this.groupBox6.Location = new System.Drawing.Point(272, 206);
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(200, 142);
-            this.groupBox6.TabIndex = 4;
-            this.groupBox6.TabStop = false;
-            this.groupBox6.Text = "Configuración general";
-            // 
             // FMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -478,11 +452,10 @@
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).EndInit();
             this.TBAdmindComidas.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -515,14 +488,11 @@
         private Button btnAlimentoEliminar;
         private Button btnAlimentoAgregar;
         private TextBox txtAlimentoImagenPath;
-        private TextBox txtCategoriaNombre;
         private GroupBox groupBox5;
-        private Button btnCategoriaEditar;
-        private Button btnCategoriaEliminar;
-        private Button btnCategoriaAgregar;
         private Label nombreRestaurante;
         private Label label2;
         private Button btnGuardar;
         private GroupBox groupBox6;
+        private Button btnAdministrarCategorias;
     }
 }
