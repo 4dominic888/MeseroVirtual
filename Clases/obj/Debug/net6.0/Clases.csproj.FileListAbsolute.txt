@@ -1,0 +1,12 @@
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\bin\Debug\net6.0\Clases.deps.json
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\bin\Debug\net6.0\Clases.dll
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\bin\Debug\net6.0\Clases.pdb
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\Clases.csproj.AssemblyReference.cache
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\Clases.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\Clases.AssemblyInfoInputs.cache
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\Clases.AssemblyInfo.cs
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\Clases.csproj.CoreCompileInputs.cache
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\Clases.dll
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\refint\Clases.dll
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\Clases.pdb
+C:\Users\4dominic888\Documents\cosas\VisualStudio cosas\MeseroVirtual\Clases\obj\Debug\net6.0\ref\Clases.dll
