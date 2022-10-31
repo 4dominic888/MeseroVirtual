@@ -1,5 +1,0 @@
-Caldo de gallina♦.\AlimentosImagenes\ImgCaldo de gallina.png♦Cenas♦7.8
-Omelet♦.\AlimentosImagenes\ImgOmelet.png♦Desayunos♦6.8
-Pizza de peperoni♦.\AlimentosImagenes\ImgPizza de peperoni.png♦Cenas♦16.9
-Estofado de carne♦.\AlimentosImagenes\ImgEstofado de carne.png♦Almuerzos♦10.2
-Lomo saltado♦.\AlimentosImagenes\ImgLomo saltado.png♦Almuerzos♦9.5
