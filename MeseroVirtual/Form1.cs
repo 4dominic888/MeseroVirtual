@@ -33,6 +33,7 @@ namespace MeseroVirtual
         private void ActualizarDatos()
         {
             #region ListView Agregar
+            LVComidas.Clear();
             ListaCategorias.For_Each(item => 
             LVComidas.Groups.Add(new ListViewGroup(item, HorizontalAlignment.Center)));
 
@@ -40,16 +41,6 @@ namespace MeseroVirtual
                 LVComidas.Items.Add(new ListViewItem(item.Nombre, EncontrarGrupo(item.Tipo))));
             #endregion
 
-            #region ComboBox update
-            cbAlimentoCategoria.Items.Clear();
-            cbAlimentoCategoria.Items.Insert(0, "---Selecciona una categoria---");
-            foreach (ListViewGroup item in LVComidas.Groups) cbAlimentoCategoria.Items.Add(item.Header);
-            cbAlimentoCategoria.SelectedIndex = 0;
-            #endregion
-        }
-
-        private void ActualizarComboBox()
-        {
             #region ComboBox update
             cbAlimentoCategoria.Items.Clear();
             cbAlimentoCategoria.Items.Insert(0, "---Selecciona una categoria---");
@@ -74,9 +65,9 @@ namespace MeseroVirtual
             {
                 if (AlimentosAlmacenados.ElementoExistenteNombre(txtAlimentoBuscarNombre.Text))
                 {
-                    Alimento alimento = AlimentosAlmacenados.BuscarElementoExistenteNombre(txtAlimentoBuscarNombre.Text);
+                    Alimento alimento = AlimentosAlmacenados.BuscarElemento(1, txtAlimentoBuscarNombre.Text);
 
-                    MessageBox.Show("Comida encontrada", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Comida encontrada", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                     btnAlimentoAgregar.Enabled = false;
                     btnAlimentoBuscar.Enabled = false;
                     txtAlimentoBuscarNombre.Enabled = false;
@@ -93,6 +84,11 @@ namespace MeseroVirtual
         }
         private void btnAlimentoAgregar_Click(object sender, EventArgs e)
         {
+
+            PictureImagenAlimento.ImageLocation = "";
+            txt_priceAlimento.Clear();
+            txt_typeAlimento.Clear();
+
             Alimento alimento = new Alimento();
 
             #region Nombre
@@ -128,9 +124,6 @@ namespace MeseroVirtual
             }
             #endregion
 
-            if (EncontrarGrupo(alimento.Tipo) is null) { MessageBox.Show($"Ha ocurrido un error", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-            else LVComidas.Items.Add(new ListViewItem(alimento.Nombre, EncontrarGrupo(alimento.Tipo)));
-
             #region Limpiar Casillas
             txtAlimentoNombre.Clear();
             txtAlimentoImagenPath.Clear();
@@ -139,77 +132,71 @@ namespace MeseroVirtual
             #endregion
 
             AlimentosAlmacenados.Apilar(alimento);
+            ActualizarDatos();
             CambiosRealizados = true;
-            //CambiosRealizados = true;
             
         }
         private void btnAlimentoEditar_Click(object sender, EventArgs e)
         {
-            //PictureImagenAlimento.ImageLocation = "";
-            //txt_priceAlimento.Clear();
-            //txt_typeAlimento.Clear();
+            PictureImagenAlimento.ImageLocation = "";
+            txt_priceAlimento.Clear();
+            txt_typeAlimento.Clear();
 
-            //Alimento alimento = new Alimento();
+            if (txtAlimentoNombre.Text.Trim() == "") { MessageBox.Show("El nombre ingresado está vacío", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            //#region Nombre
-            //if (txtAlimentoNombre.Text == "") { MessageBox.Show("El nombre ingresado está vacío", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-            //else alimento.Nombre = txtAlimentoNombre.Text;
-            //#endregion
+            if(txtAlimentoNombre.Text.Trim().Equals(txtAlimentoBuscarNombre.Text)) 
 
-            //#region Categoria
-            //if (cbAlimentoCategoria.SelectedIndex <= 0) { MessageBox.Show("No ha elegido una categoría", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-            //else alimento.Tipo = cbAlimentoCategoria.SelectedItem.ToString();
-            //#endregion
+            if (cbAlimentoCategoria.SelectedIndex <= 0) { MessageBox.Show("No ha elegido una categoría", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
-            //#region Precio
-            //try
-            //{
-            //    alimento.Precio = double.Parse(txtAlimentoPrecio.Text);
-            //}
-            //catch (FormatException)
-            //{
-            //    MessageBox.Show("El precio establecido está vacio o no ha sido colocado correctamente", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //    return;
-            //}
-            //#endregion
+            try
+            {
+                double.Parse(txtAlimentoPrecio.Text);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("El precio establecido está vacio o no ha sido colocado correctamente", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            //#region Imagen
-            //if (txtAlimentoImagenPath.Text == "") { MessageBox.Show("No ha elegido una imagen", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-            //else
-            //{
-            //    string path = Path.Combine(@".\temp\", Path.GetFileName("Img" + txtAlimentoNombre.Text + ".png"));
-            //    alimento.Imagen = path;
-            //    File.Copy(txtAlimentoImagenPath.Text, path, true);
-            //}
-            //#endregion
-
-            //if (EncontrarGrupo(alimento.Tipo) is null) { MessageBox.Show($"Ha ocurrido un error", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
-
-            //#region Limpiar Casillas
-            //txtAlimentoNombre.Clear();
-            //txtAlimentoImagenPath.Clear();
-            //cbAlimentoCategoria.SelectedIndex = 0;
-            //txtAlimentoPrecio.Clear();
-            //#endregion
-
-            //AlimentosAlmacenados.For_Each(item =>
-            //{
-            //    if (item.Nombre.Equals(txtAlimentoBuscarNombre.Text))
-            //    {
-            //        if(item.Imagen != alimento.Imagen)
-            //        {
-            //            File.Delete(item.Imagen);
-            //            GC.Collect();
-            //            GC.WaitForPendingFinalizers();
-            //        }
-            //        item = alimento;
-            //    }
-            //});
+            if (txtAlimentoImagenPath.Text.Trim() == "") { MessageBox.Show("No ha elegido una imagen", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning); return; }
 
 
+            AlimentosAlmacenados.For_Each(item =>
+            {
+                if (item.Nombre.Equals(txtAlimentoBuscarNombre.Text))
+                {
+                    item.Nombre = txtAlimentoNombre.Text;
+                    item.Tipo = cbAlimentoCategoria.SelectedItem.ToString();
+                    item.Precio = double.Parse(txtAlimentoPrecio.Text);
+                    //
+                    if (!item.Imagen.Equals(txtAlimentoImagenPath.Text))
+                    {
 
-            //CambiosRealizados = true;
-            MessageBox.Show("No implementado aun");
+                        if (item.Imagen.ToLower()[2] == 't')
+                        {
+                            File.Delete(item.Imagen);
+                            GC.Collect();
+                            GC.WaitForPendingFinalizers();
+                        }
+                        string path = Path.Combine(@".\temp\", Path.GetFileName("Img" + txtAlimentoNombre.Text + ".png"));
+                        item.Imagen = path;
+                        File.Copy(txtAlimentoImagenPath.Text, path, true);
+                    }
+                    return;
+                }
+            });
+
+            ActualizarDatos();
+
+            #region Limpiar Casillas
+            txtAlimentoNombre.Clear();
+            txtAlimentoImagenPath.Clear();
+            cbAlimentoCategoria.SelectedIndex = 0;
+            txtAlimentoPrecio.Clear();
+            txtAlimentoBuscarNombre.Clear();
+            #endregion
+
+            CambiosRealizados = true;
             btnAlimentoAgregar.Enabled = true;
             btnAlimentoBuscar.Enabled = true;
             txtAlimentoBuscarNombre.Enabled = true;
@@ -316,13 +303,28 @@ namespace MeseroVirtual
                         {
                             if (item.Imagen.ToLower()[2] == 't') //si sus imágenes están en el temp
                             {
-                                File.Move(item.Imagen, Path.Combine(@".\AlimentosImagenes\", Path.GetFileName("Img" + item.Nombre + ".png")));
+                                File.Move(item.Imagen, Path.Combine(@".\AlimentosImagenes\", Path.GetFileName("Img" + item.Nombre + ".png")), true);
                                 GC.Collect();
                                 GC.WaitForPendingFinalizers();
                                 item.Imagen = Path.Combine(@".\AlimentosImagenes\", Path.GetFileName("Img" + item.Nombre + ".png"));
                             }
                         });
-                        
+                        string[] paths = Directory.GetFiles(@".\AlimentosImagenes\");
+                        foreach (string imagen in paths)
+                        {
+                            bool imagenConAlimento = false;
+                            AlimentosAlmacenados.For_Each(alimento =>
+                            {
+                                if (Path.GetFileName(imagen).Equals(Path.GetFileName(alimento.Imagen))) imagenConAlimento = true;
+                            });
+                            if (!imagenConAlimento)
+                            {
+                                File.Delete(imagen);
+                                GC.Collect();
+                                GC.WaitForPendingFinalizers();
+                            }
+                        }
+
                         StreamWriter guardar = File.CreateText(path);
                         AlimentosAlmacenados.For_Each(item => guardar.WriteLine(item));
                         guardar.Close();
@@ -414,7 +416,7 @@ namespace MeseroVirtual
         private void VerInformacion(object sender, MouseEventArgs e)
         {
             txt_typeAlimento.Text = LVComidas.SelectedItems[0].SubItems[0].Text;
-            Alimento verAlimento = AlimentosAlmacenados.BuscarElementoExistenteNombre(txt_typeAlimento.Text);
+            Alimento verAlimento = AlimentosAlmacenados.BuscarElemento(1, txt_typeAlimento.Text);
             txt_priceAlimento.Text = "S/. " + verAlimento.Precio.ToString();
             PictureImagenAlimento.ImageLocation = verAlimento.Imagen;
         }
