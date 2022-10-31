@@ -196,12 +196,14 @@ namespace MeseroVirtual
             txtAlimentoBuscarNombre.Clear();
             #endregion
 
+            #region Restablecer casillas
             CambiosRealizados = true;
             btnAlimentoAgregar.Enabled = true;
             btnAlimentoBuscar.Enabled = true;
             txtAlimentoBuscarNombre.Enabled = true;
             btnAlimentoEditar.Enabled = false;
             btnAlimentoEliminar.Enabled = false;
+            #endregion
         }
 
         //Categoria CRUD
