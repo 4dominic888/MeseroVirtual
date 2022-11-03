@@ -122,12 +122,22 @@ namespace Clases
                 nodoTemporal = nodoTemporal.puntero;
             }
         }
-        public object SearchDataOfIndex(int index)
+        public string SearchDataOfIndex(int index)
         {
             NodoCategoria nodoTemporal = inicio;
             while (nodoTemporal != null)
             {
                 if (nodoTemporal.index == index) return nodoTemporal.data;
+                nodoTemporal = nodoTemporal.puntero;
+            }
+            return null;
+        }
+        public string SearchData(string data)
+        {
+            NodoCategoria nodoTemporal = inicio;
+            while (nodoTemporal != null)
+            {
+                if (nodoTemporal.data == data) return nodoTemporal.data;
                 nodoTemporal = nodoTemporal.puntero;
             }
             return null;
@@ -182,6 +192,20 @@ namespace Clases
         public void ShowFirstData()
         {
             Console.WriteLine(inicio.data);
+        }
+
+        public void EditarElemento(string data, string changue)
+        {
+            NodoCategoria nodoTemporal = new NodoCategoria();
+            nodoTemporal = inicio;
+
+            if (inicio is null) return;
+
+            while (nodoTemporal != null)
+            {
+                if (nodoTemporal.data.Equals(data)) nodoTemporal.data = changue;
+                nodoTemporal = nodoTemporal.puntero;
+            }
         }
     }
 }

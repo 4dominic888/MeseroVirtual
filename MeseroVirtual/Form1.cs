@@ -1,5 +1,6 @@
 ﻿using Clases;
 using System.IO;
+using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
@@ -44,7 +45,7 @@ namespace MeseroVirtual
             #region ComboBox update
             cbAlimentoCategoria.Items.Clear();
             cbAlimentoCategoria.Items.Insert(0, "---Selecciona una categoria---");
-            foreach (ListViewGroup item in LVComidas.Groups) cbAlimentoCategoria.Items.Add(item.Header);
+            ListaCategorias.For_Each(categoria => cbAlimentoCategoria.Items.Add(categoria));
             cbAlimentoCategoria.SelectedIndex = 0;
             #endregion
         }
@@ -210,10 +211,14 @@ namespace MeseroVirtual
 
         private void btnAdministrarCategorias_Click(object sender, EventArgs e)
         {
+            #region Preparativos iniciales
             bool aplicarCambios = false;
             vCRUD form = new vCRUD();
             form.LB_Categorias.Items.Clear();
-            ListaCategorias.For_Each(categoria => form.LB_Categorias.Items.Add(categoria));
+            form.listaTemporalCategorias = ListaCategorias;
+            form.alimentosTemporalAlmacenados = AlimentosAlmacenados;
+            form.listaTemporalCategorias.For_Each(categoria => form.LB_Categorias.Items.Add(categoria));
+            #endregion
 
             //Menu contextual
             #region Agregar Categoria
@@ -222,34 +227,61 @@ namespace MeseroVirtual
                 string nuevaCategoria = inputBoxParameters("Mesero Virtual", "Ingrese el nombre de la nueva categoría",
                     "La categoría ingresada ya existe", form.LB_Categorias);
 
-                if (nuevaCategoria != "") { form.LB_Categorias.Items.Add(nuevaCategoria); aplicarCambios = true; }
+                if (nuevaCategoria != "") {
+                    form.listaTemporalCategorias.InsertToEnd(nuevaCategoria);
+                    form.LB_Categorias.Items.Add(nuevaCategoria); 
+                    aplicarCambios = true; 
+                }
             });
             #endregion
 
             #region Modificar Categoria
             form.cMOpciones.Items[1].Click += new EventHandler((sender, e) =>
             {
+                string categoriaOriginal = form.LB_Categorias.SelectedItem.ToString();
                 string editarCategoria = inputBoxParameters("Mesero Virtual", "Ingrese el nombre que tendrá la categoría",
-                    "La categoría ingresada ya existe", form.LB_Categorias);
+                    "La categoría ingresada ya existe", form.LB_Categorias, categoriaOriginal);
 
-                if (editarCategoria != "") { form.LB_Categorias.Items[form.LB_Categorias.SelectedIndex] = editarCategoria; aplicarCambios = true; }
+                if (editarCategoria != "") {
+                    form.LB_Categorias.Items[form.LB_Categorias.SelectedIndex] = editarCategoria;
+                    form.alimentosTemporalAlmacenados.For_Each(alimento => { if (alimento.Tipo.Equals(categoriaOriginal)) alimento.Tipo = editarCategoria;});
+                    form.listaTemporalCategorias.EditarElemento(categoriaOriginal, editarCategoria);
+
+                    aplicarCambios = true; 
+                }
             });
             #endregion
 
             #region Eliminar Categoria
             form.cMOpciones.Items[2].Click += new EventHandler((sender, e) =>
             {
+                string categoriaOriginal = form.LB_Categorias.SelectedItem.ToString();
                 DialogResult result = MessageBox.Show("¿Deseas eliminar esta sección, se van a eliminar los elementos dentro?", "Mesero Virtual", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result is DialogResult.Yes) { form.LB_Categorias.Items.RemoveAt(form.LB_Categorias.SelectedIndex); aplicarCambios = true; }
+                if (result is DialogResult.Yes) {
+                    form.LB_Categorias.Items.RemoveAt(form.LB_Categorias.SelectedIndex);
+                    form.listaTemporalCategorias.DeleteOfData(categoriaOriginal);
+                    form.alimentosTemporalAlmacenados.For_Each(alimento =>
+                    {
+                        if (alimento.Tipo.Equals(categoriaOriginal)) form.alimentosTemporalAlmacenados.EliminarElementoPila(alimento);
+                    });
+                    aplicarCambios = true; 
+                }
             });
             #endregion
 
             if (form.ShowDialog() == DialogResult.OK) //Guardar Cambios
             {
-                DialogResult result = MessageBox.Show("¿Deseas aplicar los cambios hechos?", "Mesero Virtual", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (result == DialogResult.Yes)
+                if (aplicarCambios)
                 {
-                    MessageBox.Show("Aun no se implementa esta opción");
+                    DialogResult result = MessageBox.Show("¿Deseas aplicar los cambios hechos en la categoría?", "Mesero Virtual", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (result == DialogResult.Yes)
+                    {
+                        //solo está el agregar
+                        ListaCategorias = form.listaTemporalCategorias;
+                        AlimentosAlmacenados = form.alimentosTemporalAlmacenados;
+                        ActualizarDatos();
+                        CambiosRealizados = true;
+                    }
                 }
             }
         }
@@ -408,9 +440,9 @@ namespace MeseroVirtual
 
         }
 
-        private string inputBoxParameters(string titulo, string descripcion, string errorMensaje, ListBox list)
+        private string inputBoxParameters(string titulo, string descripcion, string errorMensaje, ListBox list, string defaultAnswer = "")
         {
-            string text = Microsoft.VisualBasic.Interaction.InputBox(descripcion, titulo).Trim();
+            string text = Microsoft.VisualBasic.Interaction.InputBox(descripcion, titulo, defaultAnswer).Trim();
             foreach (string item in list.Items) if (item.Equals(text)) { MessageBox.Show(errorMensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning); return ""; }
             return text;
         }

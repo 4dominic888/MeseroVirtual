@@ -329,7 +329,7 @@
             this.groupBox3.Size = new System.Drawing.Size(432, 176);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Agregar Comida";
+            this.groupBox3.Text = "Comida";
             // 
             // btnAlimentoBuscar
             // 

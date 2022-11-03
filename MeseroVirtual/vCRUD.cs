@@ -13,12 +13,12 @@ namespace MeseroVirtual
 {
     public partial class vCRUD : Form
     {
+        public ListaEnlazadaCategorias listaTemporalCategorias = new ListaEnlazadaCategorias();
+        public PilaAlimento alimentosTemporalAlmacenados = new PilaAlimento();
+
         public vCRUD() => InitializeComponent();
 
-        private void vCRUD_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void vCRUD_Load(object sender, EventArgs e) { }
         private void cMOpciones_Opening(object sender, CancelEventArgs e)
         {
             if (LB_Categorias.SelectedIndex is -1)
