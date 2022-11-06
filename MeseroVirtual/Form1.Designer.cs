@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Desayunos", System.Windows.Forms.HorizontalAlignment.Center);
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("Arroz con pollo");
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Almuerzos", System.Windows.Forms.HorizontalAlignment.Center);
@@ -47,10 +48,20 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txt_priceAlimento = new System.Windows.Forms.TextBox();
             this.txt_typeAlimento = new System.Windows.Forms.TextBox();
+            this.TBColaPedidos = new System.Windows.Forms.TabPage();
+            this.listaPedidos = new System.Windows.Forms.ListView();
+            this.columnNombre = new System.Windows.Forms.ColumnHeader();
+            this.columnCantidad = new System.Windows.Forms.ColumnHeader();
+            this.columnPrecio = new System.Windows.Forms.ColumnHeader();
+            this.menuContextual = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmRetirarPedido = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMandarPedido = new System.Windows.Forms.Button();
             this.TBAdmindComidas = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btnEstablecerNombreRestaurante = new System.Windows.Forms.Button();
+            this.txtNombreRestaurante = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnAdministrarCategorias = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -68,8 +79,11 @@
             this.TabPageRestaurante.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).BeginInit();
+            this.TBColaPedidos.SuspendLayout();
+            this.menuContextual.SuspendLayout();
             this.TBAdmindComidas.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -125,13 +139,14 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.TabPageRestaurante);
+            this.tabControl1.Controls.Add(this.TBColaPedidos);
             this.tabControl1.Controls.Add(this.TBAdmindComidas);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(800, 541);
-            this.tabControl1.TabIndex = 2;
+            this.tabControl1.TabIndex = 1;
             // 
             // TabPageRestaurante
             // 
@@ -153,7 +168,7 @@
             // 
             this.nombreRestaurante.AutoSize = true;
             this.nombreRestaurante.Font = new System.Drawing.Font("Showcard Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.nombreRestaurante.Location = new System.Drawing.Point(351, 13);
+            this.nombreRestaurante.Location = new System.Drawing.Point(394, 13);
             this.nombreRestaurante.Name = "nombreRestaurante";
             this.nombreRestaurante.Size = new System.Drawing.Size(78, 20);
             this.nombreRestaurante.TabIndex = 0;
@@ -203,6 +218,7 @@
             this.btnComprar.TabIndex = 9;
             this.btnComprar.Text = "Agregar Pedido";
             this.btnComprar.UseVisualStyleBackColor = false;
+            this.btnComprar.Click += new System.EventHandler(this.btnComprar_Click);
             // 
             // PictureImagenAlimento
             // 
@@ -248,6 +264,78 @@
             this.txt_typeAlimento.Size = new System.Drawing.Size(138, 23);
             this.txt_typeAlimento.TabIndex = 7;
             // 
+            // TBColaPedidos
+            // 
+            this.TBColaPedidos.Controls.Add(this.listaPedidos);
+            this.TBColaPedidos.Controls.Add(this.btnMandarPedido);
+            this.TBColaPedidos.Location = new System.Drawing.Point(4, 24);
+            this.TBColaPedidos.Name = "TBColaPedidos";
+            this.TBColaPedidos.Size = new System.Drawing.Size(792, 513);
+            this.TBColaPedidos.TabIndex = 2;
+            this.TBColaPedidos.Text = "Cola de pedidos";
+            this.TBColaPedidos.UseVisualStyleBackColor = true;
+            // 
+            // listaPedidos
+            // 
+            this.listaPedidos.BackColor = System.Drawing.Color.MistyRose;
+            this.listaPedidos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnNombre,
+            this.columnCantidad,
+            this.columnPrecio});
+            this.listaPedidos.ContextMenuStrip = this.menuContextual;
+            this.listaPedidos.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.listaPedidos.Location = new System.Drawing.Point(0, 0);
+            this.listaPedidos.MultiSelect = false;
+            this.listaPedidos.Name = "listaPedidos";
+            this.listaPedidos.ShowGroups = false;
+            this.listaPedidos.Size = new System.Drawing.Size(792, 481);
+            this.listaPedidos.TabIndex = 2;
+            this.listaPedidos.UseCompatibleStateImageBehavior = false;
+            this.listaPedidos.View = System.Windows.Forms.View.Details;
+            // 
+            // columnNombre
+            // 
+            this.columnNombre.Text = "Nombre";
+            this.columnNombre.Width = 622;
+            // 
+            // columnCantidad
+            // 
+            this.columnCantidad.Text = "Cantidad";
+            this.columnCantidad.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnCantidad.Width = 70;
+            // 
+            // columnPrecio
+            // 
+            this.columnPrecio.Text = "Precio Total";
+            this.columnPrecio.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnPrecio.Width = 100;
+            // 
+            // menuContextual
+            // 
+            this.menuContextual.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmRetirarPedido});
+            this.menuContextual.Name = "menuContextual";
+            this.menuContextual.ShowImageMargin = false;
+            this.menuContextual.Size = new System.Drawing.Size(124, 26);
+            this.menuContextual.Opening += new System.ComponentModel.CancelEventHandler(this.menuContextual_Opening);
+            // 
+            // tsmRetirarPedido
+            // 
+            this.tsmRetirarPedido.Name = "tsmRetirarPedido";
+            this.tsmRetirarPedido.Size = new System.Drawing.Size(123, 22);
+            this.tsmRetirarPedido.Text = "Retirar pedido";
+            this.tsmRetirarPedido.Click += new System.EventHandler(this.tsmRetirarPedido_Click);
+            // 
+            // btnMandarPedido
+            // 
+            this.btnMandarPedido.Location = new System.Drawing.Point(3, 487);
+            this.btnMandarPedido.Name = "btnMandarPedido";
+            this.btnMandarPedido.Size = new System.Drawing.Size(781, 23);
+            this.btnMandarPedido.TabIndex = 1;
+            this.btnMandarPedido.Text = "Mandar pedido";
+            this.btnMandarPedido.UseVisualStyleBackColor = true;
+            this.btnMandarPedido.Click += new System.EventHandler(this.btnMandarPedido_Click);
+            // 
             // TBAdmindComidas
             // 
             this.TBAdmindComidas.Controls.Add(this.groupBox6);
@@ -284,12 +372,32 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.btnEstablecerNombreRestaurante);
+            this.groupBox5.Controls.Add(this.txtNombreRestaurante);
             this.groupBox5.Location = new System.Drawing.Point(449, 21);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(320, 176);
+            this.groupBox5.Size = new System.Drawing.Size(335, 176);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Configuración Restaurante";
+            // 
+            // btnEstablecerNombreRestaurante
+            // 
+            this.btnEstablecerNombreRestaurante.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnEstablecerNombreRestaurante.Location = new System.Drawing.Point(207, 25);
+            this.btnEstablecerNombreRestaurante.Name = "btnEstablecerNombreRestaurante";
+            this.btnEstablecerNombreRestaurante.Size = new System.Drawing.Size(122, 24);
+            this.btnEstablecerNombreRestaurante.TabIndex = 1;
+            this.btnEstablecerNombreRestaurante.Text = "Establecer nombre";
+            this.btnEstablecerNombreRestaurante.UseVisualStyleBackColor = true;
+            this.btnEstablecerNombreRestaurante.Click += new System.EventHandler(this.btnEstablecerNombreRestaurante_Click);
+            // 
+            // txtNombreRestaurante
+            // 
+            this.txtNombreRestaurante.Location = new System.Drawing.Point(16, 26);
+            this.txtNombreRestaurante.Name = "txtNombreRestaurante";
+            this.txtNombreRestaurante.Size = new System.Drawing.Size(184, 23);
+            this.txtNombreRestaurante.TabIndex = 0;
             // 
             // groupBox4
             // 
@@ -439,7 +547,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 541);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Menu";
@@ -451,8 +559,12 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).EndInit();
+            this.TBColaPedidos.ResumeLayout(false);
+            this.menuContextual.ResumeLayout(false);
             this.TBAdmindComidas.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
@@ -494,5 +606,15 @@
         private Button btnGuardar;
         private GroupBox groupBox6;
         private Button btnAdministrarCategorias;
+        private TextBox txtNombreRestaurante;
+        private Button btnEstablecerNombreRestaurante;
+        private TabPage TBColaPedidos;
+        private Button btnMandarPedido;
+        private ContextMenuStrip menuContextual;
+        private ToolStripMenuItem tsmRetirarPedido;
+        private ListView listaPedidos;
+        private ColumnHeader columnNombre;
+        private ColumnHeader columnCantidad;
+        private ColumnHeader columnPrecio;
     }
 }

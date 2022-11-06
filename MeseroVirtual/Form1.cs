@@ -1,4 +1,5 @@
 ﻿using Clases;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection.Metadata;
 using System.Security.Cryptography.X509Certificates;
@@ -30,6 +31,9 @@ namespace MeseroVirtual
 
             if (File.Exists(@".\datos\BDAlimentos.txt")) CargarDatos(@".\datos\BDAlimentos.txt", AlimentosAlmacenados);
             else File.CreateText(@".\datos\BDAlimentos.txt"); //Alimentos
+
+            if (File.Exists(@".\datos\BDConfig.txt")) CargarDatos(@".\datos\BDConfig.txt", nombreRestaurante.Text);
+            else File.CreateText(@".\datos\BDConfig.txt"); //Config
         }
         private void ActualizarDatos()
         {
@@ -291,8 +295,67 @@ namespace MeseroVirtual
         {
             GuardarDatos(@".\datos\BDAlimentos.txt", AlimentosAlmacenados);
             GuardarDatos(@".\datos\BDCategorias.txt", ListaCategorias);
+            GuardarDatos(@".\datos\BDConfig.txt", nombreRestaurante.Text);
             CambiosRealizados = false;
         }
+        private void btnMandarPedido_Click(object sender, EventArgs e)
+        {
+            if (listaPedidos.Items.Count == 0) { MessageBox.Show("No existe ningún pedido", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation); return; };
+            string text = Microsoft.VisualBasic.Interaction.InputBox("Ingrese el nombre de este pedido", nombreRestaurante.Text, "Mesa 1").Trim();
+            SaveFileDialog guardar = new SaveFileDialog();
+            guardar.InitialDirectory = @"C\\";
+            guardar.Filter = "Archivo de texto (*.txt)|*.txt";
+            guardar.FileName = text;
+
+            if(guardar.ShowDialog() == DialogResult.OK)
+            {
+                if (!File.Exists(guardar.FileName)) ImprimirPedido(guardar.FileName);
+                else ImprimirPedido(guardar.FileName);
+
+                listaPedidos.Items.Clear();
+            }
+
+        }
+        private void btnEstablecerNombreRestaurante_Click(object sender, EventArgs e)
+        {
+            nombreRestaurante.Text = txtNombreRestaurante.Text;
+            MessageBox.Show("Actualizado", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            CambiosRealizados = true;
+        }
+        private void btnComprar_Click(object sender, EventArgs e)
+        {
+            if (alimentoSelecionado is null) MessageBox.Show("No selecciono un alimento", nombreRestaurante.Text, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            else
+            {
+                Alimento alimento = alimentoSelecionado;
+                alimento.Cantidad++;
+                ListViewItem dato = new ListViewItem(alimento.Nombre);
+                bool alimentoRepetido = false;
+                foreach (ListViewItem item in listaPedidos.Items)
+                {
+                    if (item.SubItems[0].Text.Equals(alimento.Nombre))
+                    {
+                        int cantidadAumentada = int.Parse(item.SubItems[1].Text);
+                        double precioAumentado = double.Parse(item.SubItems[2].Text.Substring(3));
+                        cantidadAumentada++;
+                        precioAumentado = alimento.Precio * cantidadAumentada;
+                        item.SubItems[1].Text = cantidadAumentada.ToString();
+                        item.SubItems[2].Text = "S/. " + precioAumentado.ToString();
+                        alimentoRepetido = true;
+                        break;
+                    }
+                }
+
+                if (!alimentoRepetido)
+                {
+                    dato.SubItems.Add(alimento.Cantidad.ToString());
+                    dato.SubItems.Add($"S/. {alimento.Precio}");
+                    listaPedidos.Items.Add(dato);
+                }
+            }
+        }
+
+        Alimento alimentoSelecionado;
 
         #endregion
 
@@ -371,6 +434,13 @@ namespace MeseroVirtual
                         guardar.Close();
                         break;
                     }
+                case string:
+                    {
+                        StreamWriter guardar = File.CreateText(path);
+                        guardar.WriteLine(nombreRestaurante.Text);
+                        guardar.Close();
+                        break;
+                    }
                 default: break;
             }
         }
@@ -406,6 +476,15 @@ namespace MeseroVirtual
                         cargar.Close();
                     } break;
 
+                case string:
+                    {
+                        StreamReader cargar = File.OpenText(path);
+                        string[] variasLineas;
+                        while (!cargar.EndOfStream) nombreRestaurante.Text = cargar.ReadLine();
+                        cargar.Close();
+                        break;
+                    }
+
                 default: break;
             }
         }
@@ -420,6 +499,7 @@ namespace MeseroVirtual
                 {
                     GuardarDatos(@".\datos\BDAlimentos.txt", AlimentosAlmacenados);
                     GuardarDatos(@".\datos\BDCategorias.txt", ListaCategorias);
+                    GuardarDatos(@".\datos\BDConfig.txt", nombreRestaurante.Text);
                 }
                 else
                 {
@@ -440,6 +520,17 @@ namespace MeseroVirtual
 
         }
 
+        private void ImprimirPedido(string path)
+        {
+            StreamWriter escribir = File.CreateText(path);
+            foreach (ListViewItem item in listaPedidos.Items)
+            {
+                escribir.WriteLine($"{item.SubItems[0].Text} x{item.SubItems[1].Text}");
+            }
+            escribir.Flush();
+            escribir.Close();
+        }
+
         private string inputBoxParameters(string titulo, string descripcion, string errorMensaje, ListBox list, string defaultAnswer = "")
         {
             string text = Microsoft.VisualBasic.Interaction.InputBox(descripcion, titulo, defaultAnswer).Trim();
@@ -453,6 +544,33 @@ namespace MeseroVirtual
             Alimento verAlimento = AlimentosAlmacenados.BuscarElemento(1, txt_typeAlimento.Text);
             txt_priceAlimento.Text = "S/. " + verAlimento.Precio.ToString();
             PictureImagenAlimento.ImageLocation = verAlimento.Imagen;
+            alimentoSelecionado = verAlimento;
+        }
+
+        private void menuContextual_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                if (listaPedidos.SelectedItems[0].Index != -1) menuContextual.Items[0].Enabled = true;
+                else menuContextual.Items[0].Enabled = false;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                menuContextual.Items[0].Enabled = false;
+            }
+        }
+
+        private void tsmRetirarPedido_Click(object sender, EventArgs e)
+        {
+            AlimentosAlmacenados.For_Each(alimento =>
+            {
+                foreach (ListViewItem item in listaPedidos.Items)
+                {
+                    if (item.SubItems[0].Text.Equals(alimento.Nombre)) alimento.Cantidad = 0;
+                }
+            });
+
+            listaPedidos.Items.RemoveAt(listaPedidos.SelectedItems[0].Index);
         }
     }
 }
