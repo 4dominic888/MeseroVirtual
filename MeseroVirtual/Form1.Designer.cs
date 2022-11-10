@@ -41,6 +41,8 @@
             this.nombreRestaurante = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbFiltro = new System.Windows.Forms.ComboBox();
+            this.txtFiltro = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnComprar = new System.Windows.Forms.Button();
             this.PictureImagenAlimento = new System.Windows.Forms.PictureBox();
@@ -77,6 +79,7 @@
             this.txtAlimentoNombre = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.TabPageRestaurante.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).BeginInit();
             this.TBColaPedidos.SuspendLayout();
@@ -102,7 +105,7 @@
             // 
             // LVComidas
             // 
-            this.LVComidas.BackColor = System.Drawing.SystemColors.ScrollBar;
+            this.LVComidas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.LVComidas.BackgroundImageTiled = true;
             this.LVComidas.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.LVComidas.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -186,12 +189,33 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbFiltro);
+            this.groupBox2.Controls.Add(this.txtFiltro);
             this.groupBox2.Location = new System.Drawing.Point(570, 46);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(200, 161);
+            this.groupBox2.Size = new System.Drawing.Size(200, 97);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Filtro";
+            // 
+            // cbFiltro
+            // 
+            this.cbFiltro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltro.FormattingEnabled = true;
+            this.cbFiltro.Location = new System.Drawing.Point(9, 51);
+            this.cbFiltro.Name = "cbFiltro";
+            this.cbFiltro.Size = new System.Drawing.Size(180, 23);
+            this.cbFiltro.TabIndex = 1;
+            this.cbFiltro.SelectedIndexChanged += new System.EventHandler(this.cbFiltroCambia);
+            // 
+            // txtFiltro
+            // 
+            this.txtFiltro.Location = new System.Drawing.Point(9, 22);
+            this.txtFiltro.Name = "txtFiltro";
+            this.txtFiltro.PlaceholderText = "Buscar...";
+            this.txtFiltro.Size = new System.Drawing.Size(180, 23);
+            this.txtFiltro.TabIndex = 0;
+            this.txtFiltro.TextChanged += new System.EventHandler(this.txtFiltro_TextChanged);
             // 
             // groupBox1
             // 
@@ -201,9 +225,9 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txt_priceAlimento);
             this.groupBox1.Controls.Add(this.txt_typeAlimento);
-            this.groupBox1.Location = new System.Drawing.Point(565, 223);
+            this.groupBox1.Location = new System.Drawing.Point(565, 149);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(221, 282);
+            this.groupBox1.Size = new System.Drawing.Size(221, 344);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos principales";
@@ -212,7 +236,7 @@
             // 
             this.btnComprar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.btnComprar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnComprar.Location = new System.Drawing.Point(38, 230);
+            this.btnComprar.Location = new System.Drawing.Point(44, 293);
             this.btnComprar.Name = "btnComprar";
             this.btnComprar.Size = new System.Drawing.Size(122, 34);
             this.btnComprar.TabIndex = 9;
@@ -223,9 +247,9 @@
             // PictureImagenAlimento
             // 
             this.PictureImagenAlimento.BackColor = System.Drawing.Color.LightGray;
-            this.PictureImagenAlimento.Location = new System.Drawing.Point(23, 95);
+            this.PictureImagenAlimento.Location = new System.Drawing.Point(14, 106);
             this.PictureImagenAlimento.Name = "PictureImagenAlimento";
-            this.PictureImagenAlimento.Size = new System.Drawing.Size(182, 118);
+            this.PictureImagenAlimento.Size = new System.Drawing.Size(191, 181);
             this.PictureImagenAlimento.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PictureImagenAlimento.TabIndex = 10;
             this.PictureImagenAlimento.TabStop = false;
@@ -376,7 +400,7 @@
             this.groupBox5.Controls.Add(this.txtNombreRestaurante);
             this.groupBox5.Location = new System.Drawing.Point(449, 21);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(335, 176);
+            this.groupBox5.Size = new System.Drawing.Size(335, 74);
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Configuración Restaurante";
@@ -490,6 +514,7 @@
             this.btnAlimentoEliminar.TabIndex = 5;
             this.btnAlimentoEliminar.Text = "Eliminar";
             this.btnAlimentoEliminar.UseVisualStyleBackColor = true;
+            this.btnAlimentoEliminar.Click += new System.EventHandler(this.btnAlimentoEliminar_Click);
             // 
             // btnAlimentoAgregar
             // 
@@ -556,6 +581,8 @@
             this.tabControl1.ResumeLayout(false);
             this.TabPageRestaurante.ResumeLayout(false);
             this.TabPageRestaurante.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureImagenAlimento)).EndInit();
@@ -616,5 +643,7 @@
         private ColumnHeader columnNombre;
         private ColumnHeader columnCantidad;
         private ColumnHeader columnPrecio;
+        private TextBox txtFiltro;
+        private ComboBox cbFiltro;
     }
 }

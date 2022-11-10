@@ -1,4 +1,5 @@
 ﻿using Clases;
+using Microsoft.VisualBasic.Logging;
 using System.ComponentModel;
 using System.IO;
 using System.Reflection.Metadata;
@@ -51,6 +52,11 @@ namespace MeseroVirtual
             cbAlimentoCategoria.Items.Insert(0, "---Selecciona una categoria---");
             ListaCategorias.For_Each(categoria => cbAlimentoCategoria.Items.Add(categoria));
             cbAlimentoCategoria.SelectedIndex = 0;
+
+            cbFiltro.Items.Clear();
+            cbFiltro.Items.Insert(0, "Todos");
+            ListaCategorias.For_Each(categoria => cbFiltro.Items.Add(categoria));
+            cbFiltro.SelectedIndex = 0;
             #endregion
         }
 
@@ -191,6 +197,28 @@ namespace MeseroVirtual
                 }
             });
 
+            ActualizarDatos();
+
+            #region Limpiar Casillas
+            txtAlimentoNombre.Clear();
+            txtAlimentoImagenPath.Clear();
+            cbAlimentoCategoria.SelectedIndex = 0;
+            txtAlimentoPrecio.Clear();
+            txtAlimentoBuscarNombre.Clear();
+            #endregion
+
+            #region Restablecer casillas
+            CambiosRealizados = true;
+            btnAlimentoAgregar.Enabled = true;
+            btnAlimentoBuscar.Enabled = true;
+            txtAlimentoBuscarNombre.Enabled = true;
+            btnAlimentoEditar.Enabled = false;
+            btnAlimentoEliminar.Enabled = false;
+            #endregion
+        }
+        private void btnAlimentoEliminar_Click(object sender, EventArgs e)
+        {
+            AlimentosAlmacenados.EliminarElementoPila(AlimentosAlmacenados.BuscarElemento(1, txtAlimentoBuscarNombre.Text));
             ActualizarDatos();
 
             #region Limpiar Casillas
@@ -572,5 +600,34 @@ namespace MeseroVirtual
 
             listaPedidos.Items.RemoveAt(listaPedidos.SelectedItems[0].Index);
         }
+
+        private void txtFiltro_TextChanged(object sender, EventArgs e) => FiltroGeneral();
+
+        private void FiltroGeneral()
+        {
+            LVComidas.Items.Clear();
+            if (txtFiltro.Text.Trim().Equals("") && cbFiltro.SelectedIndex == 0)
+            {
+                AlimentosAlmacenados.For_Each(item =>
+                LVComidas.Items.Add(new ListViewItem(item.Nombre, EncontrarGrupo(item.Tipo))));
+            }
+            else
+            {
+                AlimentosAlmacenados.For_Each(item =>
+                {
+                    if (item.Nombre.Trim().ToLower().Contains(txtFiltro.Text.ToLower()))
+                    { 
+                        LVComidas.Items.Add(new ListViewItem(item.Nombre, EncontrarGrupo(item.Tipo))); 
+                        if(!(cbFiltro.SelectedIndex == 0))
+                            if(!(cbFiltro.SelectedItem.ToString() == item.Tipo)) LVComidas.Items.Remove(EncontrarItem(item.Nombre));
+
+                    }
+                    //else
+                    //    LVComidas.Items.Remove(EncontrarItem(item.Nombre));
+                });
+            }
+        }
+
+        private void cbFiltroCambia(object sender, EventArgs e) => FiltroGeneral();
     }
 }
